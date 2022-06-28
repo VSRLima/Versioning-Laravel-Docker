@@ -15,10 +15,10 @@ services:
       - APP_ENV=local
       - APP_KEY=base64:vNWHSHdpGSQ4ylaG81ONT/YKqLpi8EpHm/2Ri8148ac=
       - APP_DEBUG=true
-      - DB_CONNECTION=mysql
-      - DB_HOST=mysql_db
-      - DB_PORT=3306
-      - DB_DATABASE=imoveis
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgresql_db
+      - DB_PORT=5432
+      - DB_DATABASE=gotour
       - DB_USERNAME=root
       - DB_PASSWORD=senha
     networks:
@@ -32,6 +32,20 @@ services:
       - MYSQL_ROOT_PASSWORD=senha
     volumes:
       - ./mysql_data:/var/lib/mysql
+      - ./dados_compartilhados:/home 
+    networks:
+      - php_mysql_network
+  postgresql_db:
+    container_name: postgresql_container
+    image: postgres:11
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=senha
+    volumes:
+      - ./dados_postgresql:/var/lib/postgresql/
+      - ./dados_compartilhados:/home 
     networks:
       - php_mysql_network
 networks:
